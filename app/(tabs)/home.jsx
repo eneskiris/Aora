@@ -1,5 +1,5 @@
 import { View, Text, FlatList, Image, RefreshControl } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
 import SearchInput from "../../components/SearchInput";
@@ -8,6 +8,7 @@ import EmptyState from "../../components/EmptyState";
 import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
 import useAppwrite from "../../lib/useAppwrite";
 import VideoCard from "../../components/VideoCard";
+import { useFocusEffect } from "expo-router";
 
 const Home = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
@@ -20,6 +21,12 @@ const Home = () => {
     await refetch();
     setRefreshing(false);
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
 
   return (
     <SafeAreaView className="bg-primary h-full">
