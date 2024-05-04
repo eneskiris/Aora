@@ -11,7 +11,7 @@ export default function App() {
   const { loading, isLogged } = useGlobalContext();
 
   if (!loading && isLogged) {
-    <Redirect href={"/home"} />;
+    return <Redirect href={"/home"} />;
   }
 
   return (
